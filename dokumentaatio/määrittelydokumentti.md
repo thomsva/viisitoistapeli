@@ -4,10 +4,12 @@ Projektin tarkoituksena on laatia ohjelma, joka ratkaisee perusmuotoisen sekä l
 
 ## Käytettävät algoritmit ja tietorakenteet
 Pelitilanne tallennetaan taulukkoon. Perusmuodossaan 15-pelissä käytetään 4x4 kokoista taulukkoa mutta sovelluksessa mahdollistetaan myös isomman pelikentän käytön. 
-Projektissa kokeillaan erilaisia hakuja pelin ratkaisemiseksi. 
+Algoritmi hyödyntää ratkaisun löytämisessä verkkoa. Kaikki mahdolliset pelitilanteet muodostavat verkon solmut ja tehtävät pelisiirrot ovat verkkojen kaaret. Pelin ratkaisu mahdollisimman vähän siirroin löytyy kun etsitään verkossa lyhyin polku alkutilanteesta loppuratkaisuun. 
+
+Projektissa kokeillaan ja verrataan erilaisia hakualgoritmeja pelin ratkaisemiseksi. 
 
 ## Syötteet sekä ohjelman tuottama ratkaisu
-Ohjelma saa syötteeksi käyttäjältä pelikentän koon, jonka jälkeen ohjelma luo pelille satunnaislukujen avulla lähtötilanteen. 
+Ohjelma saa syötteeksi käyttäjältä pelikentän koon, jonka jälkeen ohjelma luo pelille satunnaisen lähtötilanteen. 
 Kun ohjelma on löytänyt pelin ratkaisun, se tulostaa ratkaisuun tarvittavat siirrot, siirtojen määrän sekä ratkaisuun käytetyn ajan. 
 
 ## Lähteet

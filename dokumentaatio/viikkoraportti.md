@@ -1,11 +1,11 @@
 # Viikkoraportit
 
-## Viikko 1
+## Viikko 1 (9 tuntia)
 - Aloitusluentoon osallistuminen. 
 - Keskustelua ja pohdintaa aihevaihtoehdoista. 
 - Aiheen valinta: 15-pelin ratkaiseva algoritmi. 
 - Repositorion luominen
-- Luotu Maven Projekti
+- Luotu Maven Projekti (toistaiseksi vielä tyhjä)
 - Kirjoitettu määrittelydokumenttia
 - Kirjoitettu viikkoraportti
 
