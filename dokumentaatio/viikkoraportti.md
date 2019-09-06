@@ -13,5 +13,5 @@
 Ohjelman toteuttaminen on vielä vasta ajatuksen tasolla ja kieltämättä myös melko epäselvä. Ajatus luultavammin selkiintyy kun seuraavalla viikolla pääsen koodaamaan. 
 
 ### Seuraavaksi: 
-Ryhdyn koodaamaan Javalla ratkaisun 15 pelille.
+Ryhdyn koodaamaan Javalla ratkaisun 15-pelille.
 
