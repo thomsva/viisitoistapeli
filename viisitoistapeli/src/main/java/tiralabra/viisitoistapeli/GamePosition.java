@@ -1,18 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package tiralabra.viisitoistapeli;
 
 import java.util.Arrays;
 
 /**
- * The class represents an instance of a 15-puzzle playing field. 
- * The standard size of the 15-puzzle is 4x4. However the class can also work 
- * with larger or smaller fields provided that the field is square 
- * (2x2, 3x3, 4x4, 5x5 ...)
- * The size is determined by the array stored in the parameter field. 
+ * The class represents an instance of a 15-puzzle playing field. The standard
+ * size of the 15-puzzle is 4x4. However the class can also work with larger or
+ * smaller fields provided that the field is square (2x2, 3x3, 4x4, 5x5 ...) The
+ * size is determined by the array stored in the parameter field.
  */
 public class GamePosition {
 
@@ -20,6 +15,7 @@ public class GamePosition {
 
     /**
      * Creates an instance of the class GamePosition
+     *
      * @param field array representing the playing field
      */
     public GamePosition(int[] field) {
