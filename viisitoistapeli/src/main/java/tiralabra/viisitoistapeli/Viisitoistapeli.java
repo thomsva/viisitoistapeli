@@ -19,7 +19,7 @@ public class Viisitoistapeli {
     static String solve(GamePosition position, int moves, String path) {
         //System.out.println("map size: " + map.size());
         //System.out.println(Arrays.toString(position.field));
-        String result = "";
+        String result = path;
 
         int[] solution = {1, 2, 3, 0};
         //int[] solution = {1, 2, 3, 4, 5, 6, 7, 8, 0};
@@ -28,11 +28,12 @@ public class Viisitoistapeli {
         
 
         boolean stop;
-
+        
+        //check if the gameposition exists in the map
         if (map.containsKey(position)) {
-            //been here
+            //been in this positopn
             if (map.get(position) > moves) {
-                //already been here with more moves
+                //been here with more moves
                 map.put(position, moves);
                 //System.out.println("been here with more moves");
                 stop = false;
@@ -42,9 +43,9 @@ public class Viisitoistapeli {
                 stop = true;
             }
         } else {
-            //not been here
+            //new position found
             //System.out.println("not been here");
-            map.put(position, moves);
+            map.put(position, moves); //add new position to map
             stop = false;
         }
 
@@ -52,10 +53,11 @@ public class Viisitoistapeli {
             //solution found
             System.out.println("SOLUTION FOUND!!: " + path);
             stop = true;
+            return path;
         }
 
         if (!stop) {
-
+            //continue with new moves
             GamePosition positionUp = position.moveUp();
             GamePosition positionDown = position.moveDown();
             GamePosition positionLeft = position.moveLeft();
@@ -91,6 +93,7 @@ public class Viisitoistapeli {
 
         GamePosition start = new GamePosition(field);
         String solution = solve(start, 0, "");
+        System.out.println("solution: "+ solution);
 
         System.out.println("end");
 
