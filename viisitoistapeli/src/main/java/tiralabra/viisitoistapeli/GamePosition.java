@@ -1,4 +1,3 @@
-
 package tiralabra.viisitoistapeli;
 
 import java.util.Arrays;
@@ -12,14 +11,34 @@ import java.util.Arrays;
 public class GamePosition {
 
     int[] field;
+    int cost;
 
     /**
-     * Creates an instance of the class GamePosition
+     * Creates an instance of the class GamePositiion
      *
-     * @param field array representing the playing field
+     * @param f array representing the playing field
      */
-    public GamePosition(int[] field) {
-        this.field = field;
+    public GamePosition(int[] f) {
+        this.field = f;
+        int x = (int) Math.sqrt(field.length); // size of playing field x*x
+
+        //calculate cost
+        int result = 0;
+        for (int i = 1; i <= field.length; i++) {
+            int number = field[i - 1];
+            int rows, cols;
+            if (number == 0) {
+                rows = Math.abs(((1+i) / x) - ((1+x*x) / x));  
+                cols = Math.abs(i % x - (x*x) % x);        
+            } else {
+                rows = Math.abs(((1+i) / x) - ((1+number) / x));    
+                cols = Math.abs(i % x - number % x);       
+            }
+            //System.out.println("i:" + i + " number:" + number + " rows:"+ rows + " cols:"+cols);
+            result = result + rows + cols;
+        }
+        this.cost = result;
+
     }
 
     /**
@@ -27,6 +46,15 @@ public class GamePosition {
      */
     public int[] getField() {
         return field;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    @Override
+    public String toString() {
+        return "GamePosition{" + "field=" + Arrays.toString(field) + ", cost=" + cost + '}';
     }
 
     public void setField(int[] field) {
@@ -68,60 +96,54 @@ public class GamePosition {
 
     public GamePosition moveDown() {
         int[] f = this.field.clone();
-        GamePosition result = new GamePosition(f);
+        
         if (!this.canMoveDown()) {
-            return result;
+            return this;
         }
         int zero = this.findZero();
         int x = (int) Math.sqrt(f.length);
         int move = zero - x;
         f[zero] = f[move];
         f[move] = 0;
-        result.setField(f);
-        return result;
+        return new GamePosition(f);
     }
 
     public GamePosition moveUp() {
         int[] f = this.field.clone();
-        GamePosition result = new GamePosition(f);
         if (!this.canMoveUp()) {
-            return result;
+            return this;
         }
         int zero = this.findZero();
         int x = (int) Math.sqrt(f.length);
         int move = zero + x;
         f[zero] = f[move];
         f[move] = 0;
-        result.setField(f);
-        return result;
+        return new GamePosition(f);
     }
 
     public GamePosition moveRight() {
         int[] f = this.field.clone();
-        GamePosition result = new GamePosition(f);
         if (!this.canMoveRight()) {
-            return result;
+            return this;
         }
         int zero = this.findZero();
         int move = zero - 1;
         f[zero] = f[move];
         f[move] = 0;
-        result.setField(f);
-        return result;
+        return new GamePosition(f);
     }
 
     public GamePosition moveLeft() {
         int[] f = this.field.clone();
-        GamePosition result = new GamePosition(f);
+
         if (!this.canMoveLeft()) {
-            return result;
+            return this;
         }
         int zero = this.findZero();
         int move = zero + 1;
         f[zero] = f[move];
         f[move] = 0;
-        result.setField(f);
-        return result;
+        return new GamePosition(f);
     }
 
     @Override

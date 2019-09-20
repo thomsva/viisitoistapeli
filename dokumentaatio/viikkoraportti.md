@@ -37,3 +37,20 @@ Tässä vaiheessa on laadittu rekursiivinen hakualgoritmi, joka ratkaisee sujuva
 GamePosition luokan konstruktorille ja setField metodille pitäisi tehdä virheenkäsittely, jotta laittomia pelikenttiä ei voisi luoda. 
 
 GamePosition luokalle voisi tehdä konstruktorin, joka luo sattumanvaraisen pelikentän halutun kokoisena. 
+
+## Viikko 3 (12 tuntia)
+- Aloitettu A Star algoritmin toteuttaminen
+- Toteutettu A Star kustannus/etäisyys laskenta GamePosition -luokan konstruktoriin
+- Virheiden etsimistä ja korjaamista. Etäisyyslaskenta vaikuttaisi tässä vaiheessa toimivan oikein
+- Käytetty aikaa algoritmin korjailuun. Vaikka etäisyyslaskenta toimii jää algoritmi joskus jumiin.
+- Lisätty Checkstyle pom.xml tiedostoon.
+
+### Opittua ja pohdittua
+A Star algoritmi tekee kussakin verkon solmussa arvion siitä kuinka kaukana päätepisteestä ollaan. Tässä sovelluksessa olen tutkinut jokaisen pelilaudalla olevan numeron ja laskenut kuinka monen ruudun päässä kyseinen numero on määränpäästään kun reitit kulkevat ainoastaan ylös-alas sekä oikea-vasen (ei viistoon). Etäisyyslaskenta on toteutettu GamePosition -luokan konstruktorissa.  
+
+### Seuraavaksi
+Ensin työn alla oleva algoritmi pitäisi saada toimimaan kaikilla ratkaistavissa olevilla pelikentillä. Sen jälkeen vertaan sitä vielä siihen miten A Star algoritmi kuvataan. Olenko siis ajatellut ratkaisuni oikein. 
+
+Vaikuttaisi siltä, että algoritmi jättää joitakin vaihtoehtoja kokeilematta ja siksi jää ratkaisu joskus löytämättä. Pitää siis parantaa seuraavan käsiteltävän solmun valintaa niin, että kaikki mahdollisuudet tutkitaan.
+
+Senkin jälkeen kun toimiva algoritmi löytyy on vielä melko paljon tehtävää. Koodi on tässä vaiheessa jäänyt vähän keskeneräiseen tilaan ja epäsiistiksi. 
