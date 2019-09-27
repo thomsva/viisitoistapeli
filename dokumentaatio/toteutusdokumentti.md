@@ -9,6 +9,8 @@ Peli ratkaistaan A* tyyppisen algoritmin avulla. Pelin lähtötilanne on verkon 
 
 Funktiona h(n) käytetään tässä sovelluksessa laskelmaa siitä kuinka monta askelta kukin numero pitäisi yhteensä siirtää jotta se olisi oikealla paikallaan.
 
+Funktio h(n) on toteutettu GamePosition luokan konstruktorissa. Paras seuraava tutkittava pelitilanne löytyy hyödyntämällä Javan PriorityQueue rakennetta sekä GamePostion luokaan toteutettua CompareTo metodia. 
+
 Luokassa Viisitoistapeli on toteutettu pelin ratkaiseva algoritmi. Varsiaista käyttöliittymää ei ole vaan ohjelman käyttöä demotaan luokan Viisitoistapelin main metodista käsin. 
 
 ## Aika- ja tilavaativuudet 
@@ -18,5 +20,6 @@ Luokassa Viisitoistapeli on toteutettu pelin ratkaiseva algoritmi. Varsiaista k�
 
 
 ##Lähteet
-Wikipedia, A* Search Algortihm,  https://en.wikipedia.org/wiki/A*_search_algorithm
+Wikipedia, [A* Search Algortihm](https://en.wikipedia.org/wiki/A*_search_algorithm)
+
 
