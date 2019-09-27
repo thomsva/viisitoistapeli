@@ -34,7 +34,7 @@ public class Viisitoistapeli {
             //Check if goal is reached
             if (current.equals(goal)) {
                 System.out.println("Solution found " + current.getMoves() + " moves");
-                
+                System.out.println("Size of queue is: " + queue.size());
                 //Work in progress. The function should return the actual solution
                 return "Goal reached!";
             }
