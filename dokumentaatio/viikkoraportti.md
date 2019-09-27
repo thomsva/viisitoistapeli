@@ -64,13 +64,18 @@ Senkin jälkeen kun toimiva algoritmi löytyy on vielä melko paljon tehtävää
 - Yritetty saada jacoco toimimaan
 - Selkiytetty koodia kommenteilla
 - Aloitettu toteutusdokumentin kirjoittaminen
+- Oman tietorakenteen pohdintaa
 
 ### Opittua ja pohdittua
 Nykyisessä algoritmissa käytetään PriorityQueue rakennetta, jonka avulla algoritmi valikoi seuraavan käsiteltävän pelitilanteen. Rakenne ei tarkista onko pelitilanne jo aikaisemmin tallennettu. Tämä aiheuttaa turhaa tilan käyttöä, mutta se ei muuten haittaa algoritmin toimintaa, sillä PriorityQueue antaa aina sen version pelitilanteesta, johon on tultu vähemmillä siirroilla. 
 
 Viikon 4 palautustilanteen main metodissa ratkaistaan 4x4 kokinen peli. Ratkaisuun tarvitaan 20 siirtoa. Kuitenkin käsitellään lähes 2 miljoona pelitilannetta ja ratkaisun löytämiseen menee aikaa yli 4 sekuntia. Mietin onko algoritmissa sittenkin vielä jotain vikaa...
 
+### Toteutettavan tietorakenteen suunnittelua
+Käytetty PriorityQueue tuntuu käytännössä kasvavan hyvin isoksi. Yksi syy tähän on duplikaatit, jotka tässä kaikki huoletta lisätään jonoon. Vastaava oma tietorakenne voisi toimia niin, että tehdään lisäysvaiheessa duplikaattitarkistus. Jos sama pelitilanne löytyy poistetaan vanha mikäli uusi lisättävä on parempi, ja vastaavasta pidetään vanha jos uusi on huonompi.
+
 ### Seuraavaksi
 Nyt olen saanut algoritmin toimimaan edes jotenkin järkevästi. Algoritmi ratkaisee nätisti "käsin sekoitetun" 4x4 kokoisen pelilaudan. Jos numerot laittaa kokonaan sattumanvaraiseen järjestykseen aikaa vaikuttaisi menevän liikaa. Toisaalta algoritmi voi myös jäädä jumiin sillä puolet mahdollisista numeroiden järjestyksistä muodostaa ratkaisemattoman pelin.
-Seuraavaksi siis pitää vielä jatkaa algoritmin ja sen rajojen tutkimista. 
-Sekä edelleen.... projetin rakenteen ja testien parantaminen.
+Seuraavaksi siis pitää vielä jatkaa algoritmin parantelua ja sen rajojen tutkimista. 
+Sekä edelleen.... projetin rakenteen ja testien parantaminenm ja suunnitellun oman tietorakenteen toteutus.
+
