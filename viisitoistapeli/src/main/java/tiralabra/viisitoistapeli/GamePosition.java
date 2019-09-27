@@ -6,12 +6,22 @@ import java.util.Arrays;
  * The class represents an instance of a 15-puzzle playing field. The standard
  * size of the 15-puzzle is 4x4. However the class can also work with larger or
  * smaller fields provided that the field is square (2x2, 3x3, 4x4, 5x5 ...) The
- * size is determined by the array stored in the parameter field.
+ * size is determined by the array given to the constructor.
  */
-public class GamePosition {
+public class GamePosition implements Comparable<GamePosition> {
 
     int[] field;
     int cost;
+    int moves;
+    GamePosition cameFrom;
+
+    public int getMoves() {
+        return moves;
+    }
+
+    public void setMoves(int moves) {
+        this.moves = moves;
+    }
 
     /**
      * Creates an instance of the class GamePositiion
@@ -21,24 +31,21 @@ public class GamePosition {
     public GamePosition(int[] f) {
         this.field = f;
         int x = (int) Math.sqrt(field.length); // size of playing field x*x
-
         //calculate cost
         int result = 0;
-        for (int i = 1; i <= field.length; i++) {
-            int number = field[i - 1];
+        for (int i = 0; i < field.length; i++) {
+            int number = field[i];
             int rows, cols;
             if (number == 0) {
-                rows = Math.abs(((1+i) / x) - ((1+x*x) / x));  
-                cols = Math.abs(i % x - (x*x) % x);        
+                rows = Math.abs(i / x - (x*x - 1) / x);
+                cols = Math.abs(i % x - (x*x - 1) % x);
             } else {
-                rows = Math.abs(((1+i) / x) - ((1+number) / x));    
-                cols = Math.abs(i % x - number % x);       
+                rows = Math.abs(i / x - (number - 1) / x);
+                cols = Math.abs(i % x - (number - 1) % x);
             }
-            //System.out.println("i:" + i + " number:" + number + " rows:"+ rows + " cols:"+cols);
             result = result + rows + cols;
         }
         this.cost = result;
-
     }
 
     /**
@@ -54,11 +61,9 @@ public class GamePosition {
 
     @Override
     public String toString() {
-        return "GamePosition{" + "field=" + Arrays.toString(field) + ", cost=" + cost + '}';
-    }
-
-    public void setField(int[] field) {
-        this.field = field;
+        return "GamePosition{" + "field=" + Arrays.toString(field)
+                + ", cost=" + cost
+                + ", moves=" + moves + '}';
     }
 
     public int findZero() {
@@ -68,6 +73,14 @@ public class GamePosition {
             }
         }
         return field.length + 1; //not found, should be considered an error!
+    }
+
+    public void setCameFrom(GamePosition cameFrom) {
+        this.cameFrom = cameFrom;
+    }
+
+    public GamePosition getCameFrom() {
+        return cameFrom;
     }
 
     public boolean canMoveDown() {
@@ -96,7 +109,7 @@ public class GamePosition {
 
     public GamePosition moveDown() {
         int[] f = this.field.clone();
-        
+
         if (!this.canMoveDown()) {
             return this;
         }
@@ -161,5 +174,11 @@ public class GamePosition {
     @Override
     public int hashCode() {
         return Arrays.hashCode(this.field);
+    }
+
+    @Override
+    public int compareTo(GamePosition o) {
+
+        return (this.cost + this.moves) - (o.getCost() + o.getMoves());
     }
 }
