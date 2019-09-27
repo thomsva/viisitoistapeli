@@ -26,7 +26,7 @@ public class GamePosition implements Comparable<GamePosition> {
     /**
      * Creates an instance of the class GamePositiion
      *
-     * @param f array representing the playing field
+     * @param f Array representing the playing field
      */
     public GamePosition(int[] f) {
         this.field = f;

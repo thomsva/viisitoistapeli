@@ -54,3 +54,21 @@ Ensin työn alla oleva algoritmi pitäisi saada toimimaan kaikilla ratkaistaviss
 Vaikuttaisi siltä, että algoritmi jättää joitakin vaihtoehtoja kokeilematta ja siksi jää ratkaisu joskus löytämättä. Pitää siis parantaa seuraavan käsiteltävän solmun valintaa niin, että kaikki mahdollisuudet tutkitaan.
 
 Senkin jälkeen kun toimiva algoritmi löytyy on vielä melko paljon tehtävää. Koodi on tässä vaiheessa jäänyt vähän keskeneräiseen tilaan ja epäsiistiksi. 
+
+## Viikko 4 (12 tuntia)
+- Korjattu kustannus/etäisyys laskenta. Ei se edellinen versio vielä toiminutkaan oikein. 
+- Lisätty GamePosition luokkaan muuttuja moves, jolla lasketaan lähtötilanteesta tehtyjen siirtojen määrää. 
+- Toteutettu GamePosition compareTo metodi, joka käyttää sekä tehtyjä siirtoja, että arvioitua etäisyyttä
+- Kirjoitettu koko algoritmi uusiksi käyttäen PriorityQueue rakennetta. Nyt toteutus vastannee A Star toteutusta melko hyvin. 
+- Laajennettu testejä
+- Yritetty saada jacoco toimimaan
+- Selkiytetty koodia kommenteilla
+- Aloitettu toteutusdokumentin kirjoittaminen
+
+### Opittua ja pohdittua
+Nykyisessä algoritmissa käytetään PriorityQueue rakennetta, jonka avulla algoritmi valikoi seuraavan käsiteltävän pelitilanteen. Rakenne ei tarkista onko pelitilanne jo aikaisemmin tallennettu. Tämä aiheuttaa turhaa tilan käyttöä, mutta se ei muuten haittaa algoritmin toimintaa, sillä PriorityQueue antaa aina sen version pelitilanteesta, johon on tultu vähemmillä siirroilla. 
+
+### Seuraavaksi
+Nyt olen saanut algoritmin toimimaan edes jotenkin järkevästi. Algoritmi ratkaisee nätisti "käsin sekoitetun" 4x4 kokoisen pelilaudan. Jos numerot laittaa kokonaan sattumanvaraiseen järjestykseen aikaa vaikuttaisi menevän liikaa. Toisaalta algoritmi voi myös jäädä jumiin sillä puolet mahdollisista numeroiden järjestyksistä muodostaa ratkaisemattoman pelin.
+Seuraavaksi siis pitää vielä jatkaa algoritmin ja sen rajojen tutkimista. 
+Sekä edelleen.... projetin rakenteen ja testien parantaminen.

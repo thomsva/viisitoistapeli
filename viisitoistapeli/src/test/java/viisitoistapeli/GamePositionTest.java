@@ -20,7 +20,7 @@ import tiralabra.viisitoistapeli.GamePosition;
  * @author thoms
  */
 public class GamePositionTest {
-    
+
     @Test
     public void testMoveUp() {
         int[] field = {1, 0, 2, 3};
@@ -29,7 +29,7 @@ public class GamePositionTest {
         int[] expected = {1, 3, 2, 0};
         Assert.assertArrayEquals(expected, end.getField());
     }
-    
+
     @Test
     public void testMoveDown() {
         int[] field = {1, 2, 3, 0};
@@ -47,7 +47,7 @@ public class GamePositionTest {
         int[] expected = {1, 2, 3, 0};
         Assert.assertArrayEquals(expected, end.getField());
     }
-    
+
     @Test
     public void testMoveRight() {
         int[] field = {1, 2, 3, 0};
@@ -56,9 +56,22 @@ public class GamePositionTest {
         int[] expected = {1, 2, 0, 3};
         Assert.assertArrayEquals(expected, end.getField());
     }
-    
+
     @Test
-    public void testCanMoveUp(){
-        
+    public void testCanMove() {
+        int[] field = {1, 2, 3, 0};
+        GamePosition start = new GamePosition(field);
+        Assert.assertFalse(start.canMoveUp());
+        Assert.assertTrue(start.canMoveDown());
+        Assert.assertFalse(start.canMoveLeft());
+        Assert.assertTrue(start.canMoveRight());
+    }
+
+    @Test
+    public void testCalculateCostCorrectly() {
+        int[] field = {0, 1, 2, 3};
+        GamePosition position = new GamePosition(field);
+        Assert.assertEquals(6, position.getCost());
+
     }
 }

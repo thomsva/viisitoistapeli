@@ -75,7 +75,7 @@ public class Viisitoistapeli {
      * @param args
      */
     public static void main(String[] args) {
-
+        
         int[] numbers = {5, 1, 0, 4,
                         6, 7, 3, 8,
                         2, 14, 10, 11,
