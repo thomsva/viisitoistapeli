@@ -19,7 +19,7 @@ Luokassa Viisitoistapeli on toteutettu pelin ratkaiseva algoritmi. Varsiaista k�
 ## Työn mahdolliset puutteet ja parannusehdotukset
 
 
-##Lähteet
+## Lähteet
 Wikipedia, [A* Search Algortihm](https://en.wikipedia.org/wiki/A*_search_algorithm)
 
 
