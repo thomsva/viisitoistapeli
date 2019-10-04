@@ -79,3 +79,13 @@ Nyt olen saanut algoritmin toimimaan edes jotenkin järkevästi. Algoritmi ratka
 Seuraavaksi siis pitää vielä jatkaa algoritmin parantelua ja sen rajojen tutkimista. 
 Sekä edelleen.... projetin rakenteen ja testien parantaminenm ja suunnitellun oman tietorakenteen toteutus.
 
+## Viikko 5 (13 tuntia)
+- Checkstyle saattaminen toimimaan NetBeansissa
+- Lisätty yksinkertaisia GamePosition testejä. 
+- Vertaisarvioprojektiin tutustuminen 
+- Algoritmin kokeilua eri lähtötilanteilla    
+
+### Viikon pohdintoja
+Vertaisarvioprojektin tutkiminen vei tällä viikolla huomiota oman projektin etenemistä. Toisen kirjoittaman koodin hahmottaminen onkin yllättävän hankalaa vaikka työ olisi varsin laadukas. Tämä saattoi olla ihan hyvin käytettyä aikaa, sillä se avasi ainakin joitain ajatuksia miten voisin omankin projektin rakennetta tehdä järkevämmäksi.
+
+Olen testannut algoritmia erilaisilla pelitilanteilla. Kun pelilaudan koko on 3x3 ja pelin sekoittaa 28 siirtoa kestää oikean ratkaisun löytäminen peräti 15 sekuntia. Jonoon kertyy tällöin 6.5 milj tutkittua pelitilannetta. Jos peliä sekoittaa lisää menee raktkaisuun jo niin paljon aikaa ettei siinä ole enää järkeä. Hyvä puoli tässä on se, että oikea ratkaisu löytyy kun sitä jaksaa odottaa. Algoritmissa on myös tehostamismahdollisuuksia, joten on mahdollista, että saisin sen ratkaisemaan myös enemmän sekotettuja pelilautoja järkevässä ajassa. 

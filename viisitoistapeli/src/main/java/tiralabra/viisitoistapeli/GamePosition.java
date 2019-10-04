@@ -5,15 +5,15 @@ import java.util.Arrays;
 /**
  * The class represents an instance of a 15-puzzle playing field. The standard
  * size of the 15-puzzle is 4x4. However the class can also work with larger or
- * smaller fields provided that the field is square (2x2, 3x3, 4x4, 5x5 ...) The
+ * smaller fields provided that the field is square (2x2, 3x3, 4x4, 5x5 ...) The dddddddddddddddddd dddddddddddddd
  * size is determined by the array given to the constructor.
  */
 public class GamePosition implements Comparable<GamePosition> {
 
-    int[] field;
-    int cost;
-    int moves;
-    GamePosition cameFrom;
+    private final int[] field;
+    private final int cost;
+    private int moves;
+    private GamePosition cameFrom;
 
     public int getMoves() {
         return moves;
@@ -49,7 +49,8 @@ public class GamePosition implements Comparable<GamePosition> {
     }
 
     /**
-     * Returns the array representing the playing field
+     * Returns the array representing the playing field.
+     * @return an array representing the playing field
      */
     public int[] getField() {
         return field;
@@ -66,6 +67,10 @@ public class GamePosition implements Comparable<GamePosition> {
                 + ", moves=" + moves + '}';
     }
 
+    /**
+     * Finds the zero in the field. 
+     * @return the position of the zero
+     */
     public int findZero() {
         for (int i = 0; i < this.field.length; i++) {
             if (this.field[i] == 0) {

@@ -5,14 +5,8 @@
  */
 package viisitoistapeli;
 
-import java.util.Arrays;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import tiralabra.viisitoistapeli.GamePosition;
 
 /**
@@ -72,6 +66,21 @@ public class GamePositionTest {
         int[] field = {0, 1, 2, 3};
         GamePosition position = new GamePosition(field);
         Assert.assertEquals(6, position.getCost());
-
     }
+    
+    @Test
+    public void testSetAndGetMoves() {
+        int[] field = {0, 1, 2, 3};
+        GamePosition position = new GamePosition(field);
+        position.setMoves(5);
+        Assert.assertEquals(5, position.getMoves());
+    }
+    
+        @Test
+    public void testFindZero() {
+        int[] field = {1, 2, 3, 0};
+        GamePosition position = new GamePosition(field);
+        Assert.assertEquals(3, position.findZero());
+    }
+    
 }

@@ -1,6 +1,6 @@
 package tiralabra.viisitoistapeli;
 
-import java.util.PriorityQueue;
+import java.util.PriorityQueue; // to be replaced with own data structure
 
 /**
  * The class is used for solving the 15-puzzle.
@@ -8,27 +8,30 @@ import java.util.PriorityQueue;
 public class Viisitoistapeli {
 
     /**
-     * A Star style of search algorithm
+     * A Star style of search algorithm.
+     *
      * @param start Represents the starting game position
      */
     static String search(GamePosition start) {
-        //Establishing the goal of the game
-        int[] solution = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0};
+        //Establishing the goal of the game. The goal is to have all numbers
+        //ordered with the empty spot (zero) as the last number.
+        int[] solution = {1, 2, 3, 4, 5, 6, 7, 8, 0};
+        //int[] solution = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0};
         GamePosition goal = new GamePosition(solution);
-        
-        //Set up queue for next possible moves. The queue uses 
-        //GamePosition.compareTo for ranking. 
+
+        //Set up queue for next possible moves. The queue uses
+        //GamePosition.compareTo for ranking.
         PriorityQueue<GamePosition> queue = new PriorityQueue<>();
-        
+
         //Starting position can be reached with zero moves
         start.setMoves(0);
-       
+
         //Add start position to queue before starting the search
         queue.add(start);
 
         while (!queue.isEmpty()) {
-            
-            //Poll the first GamePosition from the queue 
+
+            //Poll the first GamePosition from the queue
             GamePosition current = queue.poll();
 
             //Check if goal is reached
@@ -38,8 +41,8 @@ public class Viisitoistapeli {
                 //Work in progress. The function should return the actual solution
                 return "Goal reached!";
             }
-            
-            //Add all possible moves to queue. 
+
+            //Add all possible moves to queue.
             if (current.canMoveUp()) {
                 GamePosition up = current.moveUp();
                 up.setMoves(current.getMoves() + 1);
@@ -65,27 +68,29 @@ public class Viisitoistapeli {
                 queue.add(right);
             }
         }
-        
         return ("Queue is empty but no solution was found ");
     }
 
-    
     /**
-     * Samples the use of the search algorithm.
+     * The use of the search algorithm is currently hard coded in the main
+     * method.
+     *
      * @param args
      */
     public static void main(String[] args) {
-        
-        int[] numbers = {5, 1, 0, 4,
-                        6, 7, 3, 8,
-                        2, 14, 10, 11,
-                        9, 13, 15, 12};
+
+        //int[] numbers = {5, 1, 0, 4, 6, 7, 3, 8, 2, 14, 10, 11, 9, 13, 15, 12};
+        int[] numbers = {5,4,1,  6,8,7,  2,3,0};
 
         GamePosition start = new GamePosition(numbers);
 
         System.out.println("start " + start);
+
+        long timer = java.lang.System.currentTimeMillis();
         String solution = search(start);
+        System.out.println("Work time: " + (java.lang.System.currentTimeMillis() - timer)/1000 + " seconds");
         System.out.println(solution);
+        
 
     }
 
