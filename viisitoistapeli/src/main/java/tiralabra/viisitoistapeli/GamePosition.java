@@ -183,6 +183,7 @@ public class GamePosition implements Comparable<GamePosition> {
 
     @Override
     public int compareTo(GamePosition o) {
+        if(o==null) System.out.println("compareto: oh no it is null");
 
         return (this.cost + this.moves) - (o.getCost() + o.getMoves());
     }

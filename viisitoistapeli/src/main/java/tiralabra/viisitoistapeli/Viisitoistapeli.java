@@ -1,6 +1,7 @@
 package tiralabra.viisitoistapeli;
 
 import java.util.PriorityQueue; // to be replaced with own data structure
+import tiralabra.viisitoistapeli.utility.GamePositionQueue;
 
 /**
  * The class is used for solving the 15-puzzle.
@@ -21,7 +22,8 @@ public class Viisitoistapeli {
 
         //Set up queue for next possible moves. The queue uses
         //GamePosition.compareTo for ranking.
-        PriorityQueue<GamePosition> queue = new PriorityQueue<>();
+        //PriorityQueue<GamePosition> queue = new PriorityQueue<>();
+        GamePositionQueue queue = new GamePositionQueue();
 
         //Starting position can be reached with zero moves
         start.setMoves(0);
