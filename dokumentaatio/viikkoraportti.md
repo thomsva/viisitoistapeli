@@ -103,9 +103,13 @@ Olen testannut algoritmia erilaisilla pelitilanteilla. Kun pelilaudan koko on 3x
 Viime viikon esimerkin ratkaisu keski 15 sekuntia. Sain algoritmin nyt toimimaan kunnolla ja nopeasti. Isoin ero oli,että estin hakua palaamasta suoraan takaisin edelliseen tilanteeseen. Nyt viime viikkoinen esimerkkiratkaisu syntyy alle sekunnissa ja jonoon kertyy ~6000 pelitilannetta edellisen 6.5 milj tilalle. Nyt algoritmi osaa myös ratkaista 4x4 kokoisia ratkaistavissa olevia pelejä kohtuullisessa ajassa. 
 
 ### Oma tietorakenne GamePositionQueue.java
-Tietorakenne tarjoaa GamePosition luokan olioille tarvittavat PriorityQueue luokkaa vastaavat toiminnot. 
-#### Opittua
+Tietorakenne tarjoaa GamePosition luokan olioille tarvittavat PriorityQueue luokkaa vastaavat toiminnot. Tallentamiseen käytetään arrayta jonka kokoa tuplataan tai puolitetaan tarpeen mukaan. 
+
+### Opittua
 Ajattelin, että keon toteutus tulee olemaan monimutkaista ja ikävää ja siksi se on lykkääntynyt. No toinen lykkäytymisen syy oli se, ettei algoritmi muutenkaan toiminut kunnolla ennen tätä viikkoa. Nopealla vilkaisulla tirakirjaan opin, että kekorakenteen tiedon tallennustapa ja operaatiot ovat niin helppoja ja loogisia että oikein tulee hyvälle tuulelle. Toteuttaminen oli ihan mukavaa puuhaa vaikka virheiden etsimisen kanssa aikaa meni lopulta melko paljon. 
+
+### Pohdinnassa
+Mietin mikä olisi helpoin ja/tai paras tapa toteuttaa suorityskykytestaus niin että siitä saisi mielenkiintoisia ja hyödyllisiä tuloksia.  
 
 ### Seuraavaksi
 Tämän jälkeen työlistalla on testien parantaminen ja jonkinlaisen käyttöliittymän toteuttaminen. Tämän lisäksi jos aikaa vielä jää, jatkan vielä algoritmin suorityskyvyn optimointia ennen loppusiivousta ja viimeistelyä. 
