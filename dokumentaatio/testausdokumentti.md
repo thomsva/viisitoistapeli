@@ -7,4 +7,5 @@ Kokeillaan ratkaista seuraava 4x4 kokoinen pelin lähtötilanne:
 Peli on laadittu sekoittamalla sattumanvaraisesti 20 siirtoa.
 Laskettuustannus h(n) on 18. 
 
-Pelin ratkaisuun menee aikaa 4.1 sekuntia. Eri pelitilanteita on tutkittu 1999932 kpl. 
+Pelin ratkaisuun menee aikaa 18 millisekuntia. Pelitilanteita keossa on 991 kpl. 
+

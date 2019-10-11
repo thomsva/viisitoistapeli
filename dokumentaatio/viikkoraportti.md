@@ -89,3 +89,23 @@ Sekä edelleen.... projetin rakenteen ja testien parantaminenm ja suunnitellun o
 Vertaisarvioprojektin tutkiminen vei tällä viikolla huomiota oman projektin etenemistä. Toisen kirjoittaman koodin hahmottaminen onkin yllättävän hankalaa vaikka työ olisi varsin laadukas. Tämä saattoi olla ihan hyvin käytettyä aikaa, sillä se avasi ainakin joitain ajatuksia miten voisin omankin projektin rakennetta tehdä järkevämmäksi.
 
 Olen testannut algoritmia erilaisilla pelitilanteilla. Kun pelilaudan koko on 3x3 ja pelin sekoittaa 28 siirtoa kestää oikean ratkaisun löytäminen peräti 15 sekuntia. Jonoon kertyy tällöin 6.5 milj tutkittua pelitilannetta. Jos peliä sekoittaa lisää menee raktkaisuun jo niin paljon aikaa ettei siinä ole enää järkeä. Hyvä puoli tässä on se, että oikea ratkaisu löytyy kun sitä jaksaa odottaa. Algoritmissa on myös tehostamismahdollisuuksia, joten on mahdollista, että saisin sen ratkaisemaan myös enemmän sekotettuja pelilautoja järkevässä ajassa. 
+
+## Viikko 6 (14 tuntia)
+- Virheenetsintää ja läpikäyntiä kunnes tuli läpimurto algoritmin toimivuudessa ja nopeudessa. 
+- PriorityQueuen korvaaminen omalla GamePositionQueue tietorakenteella. En kuitenkaan saanut sitä aluksi toimimaan. 
+- Kokeiluna tein kokonaisluvuille kekorakenteen. Se tuntuu toimivan oikein. Jätin oman GamePositionQueue rakenteen vielä odottamaan.
+- Algoritmi tulostaa nyt oikean ratkaisun siirrot kun se on löytynyt. 
+- Rakenteen parantelua mm. palautteessa olleiden ideoiden mukaan. 
+- Kokeiltu Dijkstra vs. A* algoritmi. Dijkstra on huomattavasti hitaamipi. 
+- GamePositionQueue rakenteen läpikäyntiä. Katsoin tarkasti, että compareTo käytetään oikein päin ja löytyikin virhe kekoehdon varmistamisessa heapify metodeissa. Nyt toimii!
+
+### Algoritmiongelman ratkaisu
+Viime viikon esimerkin ratkaisu keski 15 sekuntia. Sain algoritmin nyt toimimaan kunnolla ja nopeasti. Isoin ero oli,että estin hakua palaamasta suoraan takaisin edelliseen tilanteeseen. Nyt viime viikkoinen esimerkkiratkaisu syntyy alle sekunnissa ja jonoon kertyy ~6000 pelitilannetta edellisen 6.5 milj tilalle. Nyt algoritmi osaa myös ratkaista 4x4 kokoisia ratkaistavissa olevia pelejä kohtuullisessa ajassa. 
+
+### Oma tietorakenne GamePositionQueue.java
+Tietorakenne tarjoaa GamePosition luokan olioille tarvittavat PriorityQueue luokkaa vastaavat toiminnot. 
+#### Opittua
+Ajattelin, että keon toteutus tulee olemaan monimutkaista ja ikävää ja siksi se on lykkääntynyt. No toinen lykkäytymisen syy oli se, ettei algoritmi muutenkaan toiminut kunnolla ennen tätä viikkoa. Nopealla vilkaisulla tirakirjaan opin, että kekorakenteen tiedon tallennustapa ja operaatiot ovat niin helppoja ja loogisia että oikein tulee hyvälle tuulelle. Toteuttaminen oli ihan mukavaa puuhaa vaikka virheiden etsimisen kanssa aikaa meni lopulta melko paljon. 
+
+### Seuraavaksi
+Tämän jälkeen työlistalla on testien parantaminen ja jonkinlaisen käyttöliittymän toteuttaminen. Tämän lisäksi jos aikaa vielä jää, jatkan vielä algoritmin suorityskyvyn optimointia ennen loppusiivousta ja viimeistelyä. 

@@ -1,44 +1,41 @@
 package tiralabra.viisitoistapeli;
-
 import java.util.Arrays;
 
 /**
  * The class represents an instance of a 15-puzzle playing field. The standard
  * size of the 15-puzzle is 4x4. However the class can also work with larger or
- * smaller fields provided that the field is square (2x2, 3x3, 4x4, 5x5 ...) The dddddddddddddddddd dddddddddddddd
- * size is determined by the array given to the constructor.
+ * smaller fields provided that the field is square (2x2, 3x3, 4x4, 5x5 ...) The
+ * playing field size is determined by the array given to the constructor.
  */
 public class GamePosition implements Comparable<GamePosition> {
 
     private final int[] field;
-    private final int cost;
+    private int cost;
     private int moves;
     private GamePosition cameFrom;
-
-    public int getMoves() {
-        return moves;
-    }
-
-    public void setMoves(int moves) {
-        this.moves = moves;
-    }
+    private String path=""; 
 
     /**
-     * Creates an instance of the class GamePositiion
+     * Constructor. Creates an instance of the class GamePositiion
      *
      * @param f Array representing the playing field
      */
     public GamePosition(int[] f) {
         this.field = f;
+        //this.cost=0;
+        this.findCost();
+        this.cameFrom = this;
+    }
+
+    private void findCost() {
         int x = (int) Math.sqrt(field.length); // size of playing field x*x
-        //calculate cost
         int result = 0;
         for (int i = 0; i < field.length; i++) {
             int number = field[i];
             int rows, cols;
             if (number == 0) {
-                rows = Math.abs(i / x - (x*x - 1) / x);
-                cols = Math.abs(i % x - (x*x - 1) % x);
+                rows = Math.abs(i / x - (x * x - 1) / x);
+                cols = Math.abs(i % x - (x * x - 1) % x);
             } else {
                 rows = Math.abs(i / x - (number - 1) / x);
                 cols = Math.abs(i % x - (number - 1) % x);
@@ -50,6 +47,7 @@ public class GamePosition implements Comparable<GamePosition> {
 
     /**
      * Returns the array representing the playing field.
+     *
      * @return an array representing the playing field
      */
     public int[] getField() {
@@ -67,8 +65,17 @@ public class GamePosition implements Comparable<GamePosition> {
                 + ", moves=" + moves + '}';
     }
 
+    public int getMoves() {
+        return moves;
+    }
+
+    public void setMoves(int moves) {
+        this.moves = moves;
+    }
+
     /**
-     * Finds the zero in the field. 
+     * Finds the zero in the field.
+     *
      * @return the position of the zero
      */
     public int findZero() {
@@ -85,7 +92,15 @@ public class GamePosition implements Comparable<GamePosition> {
     }
 
     public GamePosition getCameFrom() {
-        return cameFrom;
+        return this.cameFrom;
+    }
+    
+    public void setPath(String x){
+        this.path=x;
+    }
+    
+    public String getPath() {
+        return this.path;
     }
 
     public boolean canMoveDown() {
@@ -116,52 +131,64 @@ public class GamePosition implements Comparable<GamePosition> {
         int[] f = this.field.clone();
 
         if (!this.canMoveDown()) {
-            return this;
+            return null;
         }
         int zero = this.findZero();
         int x = (int) Math.sqrt(f.length);
         int move = zero - x;
         f[zero] = f[move];
         f[move] = 0;
-        return new GamePosition(f);
+        GamePosition newPos= new GamePosition(f);
+        newPos.setCameFrom(this);
+        newPos.setPath(this.path+"D");
+        return newPos;
     }
 
     public GamePosition moveUp() {
         int[] f = this.field.clone();
         if (!this.canMoveUp()) {
-            return this;
+            return null;
         }
         int zero = this.findZero();
         int x = (int) Math.sqrt(f.length);
         int move = zero + x;
         f[zero] = f[move];
         f[move] = 0;
-        return new GamePosition(f);
+        GamePosition newPos= new GamePosition(f);
+        newPos.setCameFrom(this);
+        newPos.setPath(this.path+"U");
+        return newPos;
     }
 
     public GamePosition moveRight() {
         int[] f = this.field.clone();
         if (!this.canMoveRight()) {
-            return this;
+            return null;
         }
         int zero = this.findZero();
         int move = zero - 1;
         f[zero] = f[move];
         f[move] = 0;
-        return new GamePosition(f);
+        GamePosition newPos= new GamePosition(f);
+        newPos.setCameFrom(this);
+        newPos.setPath(this.path+"R");
+        return newPos;
     }
 
     public GamePosition moveLeft() {
         int[] f = this.field.clone();
 
         if (!this.canMoveLeft()) {
-            return this;
+            return null;
         }
         int zero = this.findZero();
         int move = zero + 1;
         f[zero] = f[move];
         f[move] = 0;
-        return new GamePosition(f);
+        GamePosition newPos= new GamePosition(f);
+        newPos.setCameFrom(this);
+        newPos.setPath(this.path+"L");
+        return newPos;
     }
 
     @Override
@@ -183,7 +210,9 @@ public class GamePosition implements Comparable<GamePosition> {
 
     @Override
     public int compareTo(GamePosition o) {
-        if(o==null) System.out.println("compareto: oh no it is null");
+        if (o == null) {
+            System.out.println("compareto: o is null");
+        }
 
         return (this.cost + this.moves) - (o.getCost() + o.getMoves());
     }
