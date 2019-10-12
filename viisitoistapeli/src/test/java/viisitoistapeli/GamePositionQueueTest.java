@@ -1,4 +1,3 @@
-
 package viisitoistapeli;
 
 import org.junit.Assert;
@@ -7,21 +6,21 @@ import tiralabra.viisitoistapeli.GamePosition;
 import tiralabra.viisitoistapeli.utility.GamePositionQueue;
 
 public class GamePositionQueueTest {
-    
+
     @Test
     public void testIsEmpty() {
         GamePositionQueue q = new GamePositionQueue();
-        int[] numbers = {1,2,0,3};
+        int[] numbers = {1, 2, 0, 3};
         GamePosition g = new GamePosition(numbers);
         Assert.assertEquals(q.isEmpty(), true);
         q.add(g);
         Assert.assertEquals(q.isEmpty(), false);
     }
-    
+
     @Test
     public void testSize() {
         GamePositionQueue q = new GamePositionQueue();
-        int[] numbers = {1,2,0,3};
+        int[] numbers = {1, 2, 0, 3};
         GamePosition g1 = new GamePosition(numbers);
         GamePosition g2 = new GamePosition(numbers);
         Assert.assertEquals(0, q.size());
@@ -29,13 +28,13 @@ public class GamePositionQueueTest {
         q.add(g2);
         Assert.assertEquals(2, q.size());
     }
-    
+
     @Test
     public void testPoll() {
         GamePositionQueue q = new GamePositionQueue();
-        int[] numbers1 = {1,2,0,3};
-        int[] numbers2 = {1,2,3,0};
-        int[] numbers3 = {2,0,1,3};
+        int[] numbers1 = {1, 2, 0, 3};
+        int[] numbers2 = {1, 2, 3, 0};
+        int[] numbers3 = {2, 0, 1, 3};
         GamePosition g1 = new GamePosition(numbers1);
         GamePosition g2 = new GamePosition(numbers2);
         GamePosition g3 = new GamePosition(numbers3);
@@ -46,4 +45,20 @@ public class GamePositionQueueTest {
         Assert.assertEquals(g1, q.poll());
         Assert.assertEquals(g3, q.poll());
     }
+
+    @Test
+    public void testQueueCanExpand() {
+        GamePositionQueue q = new GamePositionQueue();
+        int[] numbers = {1, 2, 0, 3};
+        GamePosition g = new GamePosition(numbers);
+        for (int i = 0; i < 1000; i++) {
+            q.add(g);
+        }
+        Assert.assertEquals(1000, q.size());
+        for (int i = 0; i < 1000; i++) {
+            q.poll();
+        }
+        Assert.assertEquals(0, q.size());
+    }
+
 }
