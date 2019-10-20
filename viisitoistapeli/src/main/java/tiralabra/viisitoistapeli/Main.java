@@ -1,7 +1,10 @@
 package tiralabra.viisitoistapeli;
+
+import java.util.Scanner;
 import static tiralabra.viisitoistapeli.GameSolver.search;
 
 public class Main {
+
     /**
      * The use of the search algorithm is currently hard coded in the main
      * method.
@@ -10,21 +13,27 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        //int[] numbers = {5,1,8,  2,6,4,  0,3,7}; // 30 moves 
-        //int[] numbers = {2,6,8,  4,1,3,  0,5,7}; // 16 moves 
-        //int[] numbers = {5,4,1,  6,8,7,  2,3,0}; // 28 moves
-        //int[] numbers = {1,2,3,  4,5,6,  7,0,8}; //1 move
-        //int[] numbers = {2,5,3,  1,0,6,  4,7,8}; //6 moves
-        int[] numbers = {5, 1, 0, 4,   6, 7, 3, 8,   2, 14, 10, 11,   9, 13, 15, 12}; // 20 moves
-        //int[] numbers = {14, 4, 15, 0,   5, 7, 3, 1,   2, 6, 10, 11, 9, 13, 12, 8}; // 43 moves
-        //int[] numbers = {1, 2, 3, 4,   5, 6, 7, 8,   9, 10 ,11, 12,   13, 14, 0, 15}; // 1 move
-
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Game configuration");
+        System.out.print("The size of the game is specified as x*x. Enter x: ");
+        int size = Integer.parseInt(sc.nextLine());
+        System.out.println("Game size selected " + size + "*" + size + ".");
+        int[] numbers = new int[size * size];
+        for (int i = 0; i < numbers.length - 1; i++) {
+            numbers[i] = i + 1;
+        }
         GamePosition start = new GamePosition(numbers);
-        System.out.println("start " + start);
+        System.out.print("Mixing game. Enter how many moves to mix: ");
+        int mix = Integer.parseInt(sc.nextLine());
+        start.mix(mix);
+        System.out.println("Mixed game: " + start);
+        
+        System.out.println("Press enter to start solver");
+        sc.nextLine();
         long timer = java.lang.System.currentTimeMillis();
         String solution = search(start);
         System.out.println("Work time: " + (java.lang.System.currentTimeMillis() - timer) + " milliseconds");
         System.out.println(solution);
         System.out.println("D=down U=up R=right L=left");
-    }   
+    }
 }

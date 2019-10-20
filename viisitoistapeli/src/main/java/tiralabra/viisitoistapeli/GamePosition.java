@@ -1,5 +1,7 @@
 package tiralabra.viisitoistapeli;
+
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * The class represents an instance of a 15-puzzle playing field. The standard
@@ -13,7 +15,7 @@ public class GamePosition implements Comparable<GamePosition> {
     private int cost;
     private int moves;
     private GamePosition cameFrom;
-    private String path=""; 
+    private String path = "";
 
     /**
      * Constructor. Creates an instance of the class GamePositiion
@@ -94,11 +96,11 @@ public class GamePosition implements Comparable<GamePosition> {
     public GamePosition getCameFrom() {
         return this.cameFrom;
     }
-    
-    public void setPath(String x){
-        this.path=x;
+
+    public void setPath(String x) {
+        this.path = x;
     }
-    
+
     public String getPath() {
         return this.path;
     }
@@ -138,9 +140,9 @@ public class GamePosition implements Comparable<GamePosition> {
         int move = zero - x;
         f[zero] = f[move];
         f[move] = 0;
-        GamePosition newPos= new GamePosition(f);
+        GamePosition newPos = new GamePosition(f);
         newPos.setCameFrom(this);
-        newPos.setPath(this.path+"D");
+        newPos.setPath(this.path + "D");
         return newPos;
     }
 
@@ -154,9 +156,9 @@ public class GamePosition implements Comparable<GamePosition> {
         int move = zero + x;
         f[zero] = f[move];
         f[move] = 0;
-        GamePosition newPos= new GamePosition(f);
+        GamePosition newPos = new GamePosition(f);
         newPos.setCameFrom(this);
-        newPos.setPath(this.path+"U");
+        newPos.setPath(this.path + "U");
         return newPos;
     }
 
@@ -169,9 +171,9 @@ public class GamePosition implements Comparable<GamePosition> {
         int move = zero - 1;
         f[zero] = f[move];
         f[move] = 0;
-        GamePosition newPos= new GamePosition(f);
+        GamePosition newPos = new GamePosition(f);
         newPos.setCameFrom(this);
-        newPos.setPath(this.path+"R");
+        newPos.setPath(this.path + "R");
         return newPos;
     }
 
@@ -185,10 +187,56 @@ public class GamePosition implements Comparable<GamePosition> {
         int move = zero + 1;
         f[zero] = f[move];
         f[move] = 0;
-        GamePosition newPos= new GamePosition(f);
+        GamePosition newPos = new GamePosition(f);
         newPos.setCameFrom(this);
-        newPos.setPath(this.path+"L");
+        newPos.setPath(this.path + "L");
         return newPos;
+    }
+
+    public void mix(int n) {
+        int i = 0;
+        Random rand = new Random();
+        int x = (int) Math.sqrt(this.field.length);
+        
+        while (i < n) {
+            int direction = rand.nextInt(4); // random 0 to 3
+            int zero = this.findZero();
+            // Find correct direction. Increment i only if direction is allowed
+            if (direction == 0) {
+                if (this.canMoveUp()) {
+                    int move = zero + x;
+                    this.field[zero] = this.field[move];
+                    this.field[move] = 0;
+                    i++;
+                }
+            }
+            if (direction == 1) {
+                if (this.canMoveDown()) {
+                    int move = zero - x;
+                    this.field[zero] = this.field[move];
+                    this.field[move] = 0;
+                    i++;
+                }
+            }
+            if (direction == 2) {
+                if (this.canMoveLeft()) {
+                    int move = zero + 1;
+                    this.field[zero] = this.field[move];
+                    this.field[move] = 0;
+                    i++;
+                }
+            }
+            if (direction == 3) {
+                if (this.canMoveRight()) {
+                    int move = zero - 1;
+                    this.field[zero] = this.field[move];
+                    this.field[move] = 0;
+                    i++;
+                }
+            }
+        }
+        // recalculate cost after mixing field
+        this.findCost();
     }
 
     @Override
