@@ -15,17 +15,24 @@ Funktiona h(n) käytetään tässä sovelluksessa laskelmaa siitä kuinka monta 
 
 Luokassa GameSolver on toteutettu pelin ratkaiseva algoritmi. GameSolver luokan search metodille annetaan lähtötilanteeksi GamePosition luokan olio. Search metodi käyttää hyväkseen kekorakennetta tallentaakseen läpikäydyt pelitilanteet. Käsittelyyn otetaan mahdollisista seuraavista pelitilanteista käsittelyyn aina paras vaihtoehto yllä kerrotun mukaisesti. 
 
-
 ## Oma tietorakenne GamePositionQueue
-Minimikeko, joka tarjoaa seuraavaksi sen pelitilanteen, jossa kuljettu matka plus arvioitu jäljellä oleva matka on pienin. 
+Minimikeko, joka tarjoaa seuraavaksi sen pelitilanteen, jossa kuljettu matka plus arvioitu jäljellä oleva matka on pienin. Keko tallentaa tietoa taulukkoon, jonka kokoa tuplataan tai puolitetaan aina tarvittaessa. 
 
 ## Aika- ja tilavaativuudet 
 Esimerkkinä ollut pelitilanne voidaan ratkaista 20 siirrolla. Algoritmi käytti 12 millisekuntia oikean ratkaisun löytämiseksi ja pelitilanteita on käyty läpi noin 1000. Jos h(n) kustannuslaskenta otetaan pois käytöstä, löytyy täsmälleen sama ratkaisu mutta ratkaisun löytäminen kestää 51 sekuntia kun pelitilanteita on käyty läpi yli 7 milj. 
 
-Tämä kuvastaa miten tärkeä käytetty kustannusfunktio on aikavaativuuden kannalta. Pahimmillaan A* algoritmin aikavaativuus sanotaan olevan O(b^d), jossa b on "branching factor" eli jakautumiskerroin. Viisitoistapelissä jakautumiskerroin on käytännössä alle 3 (kun suljetaan pois mahdollisuus palata takaisin edelliseen tilanteeseen). Paras mahdollinen jakautumiskerroin on 1 (jos algoritmi aina löytää parhaan seuraavan siirron). Verkon syvyys d on 4x4 kokoisessa pelissä enintään 80 (Wikipedia). Esimerkkitapauksessa syvyys oli 20. 
+Tämä kuvastaa miten tärkeä käytetty kustannusfunktio on aikavaativuuden kannalta. Pahimmillaan A* algoritmin aikavaativuus sanotaan olevan O(b^d), jossa b on "branching factor" eli haarautumiskerroin. 
+
+Viisitoistapelissä tiedetään, että haarautumiskerroin on aina alle 3 (kun suljetaan pois mahdollisuus palata takaisin edelliseen tilanteeseen). Paras mahdollinen haarautumiskerroin on 1 (jos algoritmi aina löytää parhaan seuraavan siirron). Verkon syvyys d on 4x4 kokoisessa pelissä enintään 80 (Wikipedia). Esimerkkitapauksessa syvyys oli 20. Jotta peli olisi ratkaistavissa kohtuullisessa ajassa pitää haarautumiskerroin olla alhainen, mahdollisimman lähellä 1. 
 
 GamePositionQueue noudattaa tunnettuja maksimikeon aika- ja tilavaativuuksia. 
 
+## Suorituskyvyn parantelua
+Vaikuttaisi siltä, lyhyimmän mahdollisen polun löytäminen missä tahansa pelissä kohtuullisessa ajassa on melko haastavaa. Kokeilin siksi muuttaa tavoitetta hieman, eli haen mitä tahansa ratkaisua mahdollisimman nopeasti. Ratkaisun ei siis tarvitse olla lyhyin polku. 
+
+Ajattelen, että algoritmi toimisi nopeammin, jos sitä kannustetaan ratkaisemnaan peliä enemmän ihmisen tavalla. Ihminen (ainakin minä itse) aloittaa ratkaisun järjestämällä yläriviä ja jatkaa sitten alaspäin. Toteutin siksi kustannusfunktioon "alennuksia" riippuen siitä kuinka paljon pelin yläosasta on ratkaistu. Alennus riippuu siitä, kuinka monta numeroa alkaen ykkösestä on paikallaan. Alennuksen koko on 1 etäisyysmitta per paikallaan oleva numero. Lisäksi lasketaan lisäalennus kun kokonainen rivi on täynnä. Toiseksi viimeisestä rivistä ei kuitenkaan lasketa lisäalennusta sillä peliä ei voi ratkaista liikkumalla ainoastaan yhdellä rivillä. 
+
+Alennus johtaa esim. siihen, että ne pelitilanteet, jossa ensimmäinen rivi on raktaistu on huomattavasti kiinnostavampia jatkon kannalta kuin ne pelitilanteet, jossa ensimmäinen rivi ei ole ratkaistu. 
 
 ## Työn mahdolliset puutteet ja parannusehdotukset
 
