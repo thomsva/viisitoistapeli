@@ -32,17 +32,36 @@ public class GamePosition implements Comparable<GamePosition> {
     private void findCost() {
         int x = (int) Math.sqrt(field.length); // size of playing field x*x
         int result = 0;
+        boolean allCorrectSoFar = true;
         for (int i = 0; i < field.length; i++) {
             int number = field[i];
-            int rows, cols;
-            if (number == 0) {
-                rows = Math.abs(i / x - (x * x - 1) / x);
-                cols = Math.abs(i % x - (x * x - 1) % x);
-            } else {
+            int rows=0;
+            int cols=0;
+            if (number != 0) {
                 rows = Math.abs(i / x - (number - 1) / x);
                 cols = Math.abs(i % x - (number - 1) % x);
+                result = result + rows + cols; //Manhattan distance 
             }
-            result = result + rows + cols;
+            
+            if (rows == 0 && cols == 0 && number != 0) {
+                // Adapt reduction to cost estimate for number in its exactly
+                // correct position. 
+                // Reduction based on distance from start of array to 
+                // encourage work from top left towards bottom right. This
+                // seems to speed up the algorithm considerably but the 
+                // solution may bot be the shortest path. 
+                if (allCorrectSoFar) {
+                    //reward all correct from upper left corner
+                    result = result - 1;
+                    if(i%x==0&&i<=field.length/2){
+                        //reward full row
+                        result=result-10;
+                    }
+                }
+            } else {
+                allCorrectSoFar = false;
+            }
+
         }
         this.cost = result;
     }
@@ -179,7 +198,6 @@ public class GamePosition implements Comparable<GamePosition> {
 
     public GamePosition moveLeft() {
         int[] f = this.field.clone();
-
         if (!this.canMoveLeft()) {
             return null;
         }
@@ -197,7 +215,7 @@ public class GamePosition implements Comparable<GamePosition> {
         int i = 0;
         Random rand = new Random();
         int x = (int) Math.sqrt(this.field.length);
-        
+
         while (i < n) {
             int direction = rand.nextInt(4); // random 0 to 3
             int zero = this.findZero();

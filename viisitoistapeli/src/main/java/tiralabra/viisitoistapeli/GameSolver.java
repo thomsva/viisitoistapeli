@@ -1,14 +1,16 @@
 package tiralabra.viisitoistapeli;
+
 import java.util.Arrays;
 import java.util.PriorityQueue; // to be replaced with own data structure
 import tiralabra.viisitoistapeli.utility.GamePositionQueue;
 import tiralabra.viisitoistapeli.utility.IntegerQueue;
 
 /**
- * The class is a helper class containing a search method used for 
- * solving the 15-puzzle.
+ * The class is a helper class containing a search method used for solving the
+ * 15-puzzle.
  */
 public class GameSolver {
+    
 
     /**
      * A Star style of search algorithm.
@@ -19,15 +21,19 @@ public class GameSolver {
     static String search(GamePosition start) {
         //Establishing the solution of the game. The goal is to have all numbers
         //ordered with the empty spot (zero) as the last number.
+
+        long timeout = 10000; // timeout in milliseconds
+        long timer = java.lang.System.currentTimeMillis();
+
         int[] solution = new int[start.getField().length];
-        for(int i=0; i<solution.length-1;i++){
-            solution[i]=i+1;
+        for (int i = 0; i < solution.length - 1; i++) {
+            solution[i] = i + 1;
         }
 
         //Set up queue for next possible moves. The queue uses
         //GamePosition.compareTo for ranking.
-        //PriorityQueue<GamePosition> queue = new PriorityQueue<>();
-        GamePositionQueue queue = new GamePositionQueue();
+        PriorityQueue<GamePosition> queue = new PriorityQueue<>();
+        //GamePositionQueue queue = new GamePositionQueue();
 
         //Starting position can be reached with zero moves
         start.setMoves(0);
@@ -36,15 +42,18 @@ public class GameSolver {
         queue.add(start);
 
         while (!queue.isEmpty()) {
-            
+
             //Poll the first GamePosition from the queue
             GamePosition current = queue.poll();
 
             //Check if goal is reached
             if (Arrays.equals(current.getField(), solution)) {
-                System.out.println("Solution found " + current.getMoves() + " moves");
-                System.out.println("Size of queue is: " + queue.size());
-                return "The path from start to finish: " + current.getPath();
+                //System.out.println("Solution found " + current.getMoves() + " moves");
+                //System.out.println("Size of queue is: " + queue.size());
+                return current.getPath();
+            }
+            if (java.lang.System.currentTimeMillis()-timer > timeout) {
+                return ("Timeout. No solution found. Size of queue is: " + queue.size());
             }
 
             //Add all possible moves to queue.
@@ -77,7 +86,7 @@ public class GameSolver {
                 }
             }
         }
-        
+
         return ("Queue is empty but no solution was found ");
     }
 }
