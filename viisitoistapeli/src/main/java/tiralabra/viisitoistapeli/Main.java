@@ -1,14 +1,16 @@
 package tiralabra.viisitoistapeli;
 
-import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 import static tiralabra.viisitoistapeli.GameSolver.search;
+import tiralabra.viisitoistapeli.comparators.AStarComparator;
+import tiralabra.viisitoistapeli.comparators.DijkstraComparator;
+import tiralabra.viisitoistapeli.comparators.EdgesComparator;
 
 public class Main {
 
     /**
-     * The use of the search algorithm is currently hard coded in the main
-     * method.
+     * A simple UI for using the 15 puzzle search algorithms.
      *
      * @param args
      */
@@ -34,25 +36,40 @@ public class Main {
     public static void main(String[] args) {
 
         String command = "";
-        int size = 4; //default size of game: 3*3
-        int mix = 75; // should be 0
+        int size = 4; //default size of game: 4*4
+        long timeout = 1000; //default timeout 1 second
+        int mix = 0;
+        boolean randomBoost = true;
+        Comparator comparator = new AStarComparator();
+        String comparatorName = "A*";
+        //int[] numbers = {6, 1, 12, 15, 0, 5, 3, 11, 2, 4, 9, 7, 14, 13, 8, 10};
         int[] numbers = new int[size * size];
         for (int i = 0; i < numbers.length - 1; i++) {
             numbers[i] = i + 1;
         }
+
         GamePosition start = new GamePosition(numbers);
         start.setMoves(0);
 
-        while (!command.equals("exit") && !command.equals("5")) {
+        while (!command.equals("exit") && !command.equals("8")) {
             System.out.println();
             printField(start.getField());
-            System.out.println("Settings: Game size " + size + "*" + size + ", mix: " + mix + ".");
+            System.out.println("Settings: Game size " + size + "*" + size
+                    + ", mix: " + mix + ", method: " + comparatorName
+                    + ", timeout: " + timeout + " ms");
+            System.out.println("RandomBoost: " + randomBoost + "  (true = on, false = off)");
+            System.out.println("Distances: Manhattan: " + start.getManhattanDistance()
+                    + ", Edges: " + start.getEdgesDistance());
+            System.out.println("Streak: " + start.getEdgesStreak());
             System.out.println("Available commands:");
             System.out.println("(1) size: Initialize game to a new size.");
             System.out.println("(2) mix: Mix the game.");
-            System.out.println("(3) solve: Attempts to find solution for game.");
-            System.out.println("(4) test: Run performance test and exit.");
-            System.out.println("(5) exit: Exits program");
+            System.out.println("(3) method: Select search algortihm type.");
+            System.out.println("(4) solve: Attempts to find solution for game.");
+            System.out.println("(5) test: Run performance tests (100 runs).");
+            System.out.println("(6) timeout: Change timeout");
+            System.out.println("(7) randomboost: Toggle on or off");
+            System.out.println("(8) exit: Exits program");
             System.out.print("> ");
             Scanner sc = new Scanner(System.in);
             command = sc.nextLine();
@@ -81,26 +98,62 @@ public class Main {
                 System.out.println("OK! Game mixed with " + mix + " moves.");
             }
 
-            if (command.equals("solve") || command.equals("3")) {
+            if (command.equals("method") || command.equals("3")) {
+                System.out.println("");
+                System.out.println("SELECT METHOD");
+                System.out.println("Currently selected method: " + comparatorName);
+                System.out.println("Available methods:");
+                System.out.println();
+                System.out.println("(1) dijkstra");
+                System.out.println("(2) a*");
+                System.out.println("(3) edges");
+                System.out.print("Select new method: ");
+                String method = sc.nextLine();
+                if (method.equals("Dijkstra") || method.equals("1")) {
+                    comparator = new DijkstraComparator();
+                    comparatorName = "Dijkstra";
+                }
+                if (method.equals("A*") || method.equals("2")) {
+                    comparator = new AStarComparator();
+                    comparatorName = "A*";
+                }
+                if (method.equals("edges") || method.equals("3")) {
+                    comparator = new EdgesComparator();
+                    comparatorName = "Edges";
+                }
+            }
+
+            if (command.equals("solve") || command.equals("4")) {
                 System.out.println("");
                 System.out.println("GAME SOLVER");
+                System.out.println("Using " + comparatorName);
+                System.out.println("! = random booster   . = edge found");
                 long timer = java.lang.System.currentTimeMillis();
-                String solution = search(start);
+                String solution = search(start, comparator, timeout, randomBoost);
                 System.out.println("");
-                System.out.println("Work time: " + (java.lang.System.currentTimeMillis() - timer) + " milliseconds");
-                System.out.println(solution.length() + " moves");
+
+                if (solution.contains("timeout")) {
+                    System.out.println("timeout " + timeout + " milliseconds");
+                } else {
+                    System.out.println("Work time: "
+                            + (java.lang.System.currentTimeMillis()
+                            - timer) + " milliseconds");
+                    System.out.print(solution.length() + " moves");
+                }
+
                 System.out.println("Solution: " + solution);
                 System.out.println("D=down U=up R=right L=left");
                 System.out.println("");
             }
 
-            if (command.equals("test") || command.equals("4")) {
-                int attempts=100;
+            if (command.equals("test") || command.equals("5")) {
+                int attempts = 100;
                 System.out.println("");
                 System.out.println("RUNNING PERFORMANCE TESTS");
                 System.out.println();
                 System.out.println("Initializing new game sized " + size + "*" + size + ".");
-                System.out.println("Solving puzzle "+attempts+" times.");
+                System.out.println("Solving puzzle " + attempts + " times using "
+                        + comparatorName + ".");
 
                 numbers = new int[size * size];
                 for (int i = 0; i < numbers.length - 1; i++) {
@@ -113,8 +166,8 @@ public class Main {
                 long timer;
                 for (int i = 0; i < 100; i++) {
                     if (mix == 0) {
-                        start.mix(50);
-                        System.out.print("Mixed " + 50 * (i + 1) + " moves. Finding solution... ");
+                        start.mix(20 * (i + 1));
+                        System.out.print("Mixed " + (20 * (i + 1)) + " moves. Finding solution  ");
                     } else {
                         numbers = new int[size * size];
                         for (int j = 0; j < numbers.length - 1; j++) {
@@ -123,14 +176,14 @@ public class Main {
                         start = new GamePosition(numbers);
                         start.setMoves(0);
                         start.mix(mix);
-                        System.out.print("Reinitialized and mixed " + mix + " moves. Finding solution... ");
+                        System.out.print("Reinitialized and mixed " + mix + " moves. Finding solution ");
                     }
                     System.gc();
                     timer = java.lang.System.currentTimeMillis();
-                    String solution = search(start);
+                    String solution = search(start, comparator, timeout, randomBoost);
                     workTime[i] = (java.lang.System.currentTimeMillis() - timer);
 
-                    if (solution.contains("Timeout")) {
+                    if (solution.contains("timeout")) {
                         System.out.print("timeout");
                         success[i] = false;
                     } else {
@@ -149,10 +202,26 @@ public class Main {
                         successCount++;
                     }
                 }
-                System.out.println(successCount + " successful attempts out of "+ attempts+".");
+                System.out.println(successCount + " successful attempts out of " + attempts + ".");
                 System.out.println("Total work time: " + totalTime + " ms.");
-                System.out.println("Average work time: " + totalTime / successCount + " ms.");
-                command = "exit";
+                if (successCount != 0) {
+                    System.out.println("Average work time: " + totalTime / successCount + " ms.");
+                }
+            }
+            if (command.equals("timeout") || command.equals("6")) {
+                System.out.println("");
+                System.out.println("SET TIMEOUT");
+                System.out.print("Enter timeout in milliseconds: ");
+                timeout = Integer.parseInt(sc.nextLine());
+                System.out.println("OK! Timeout is now " + timeout + " milliseconds.");
+            }
+
+            if (command.equals("randomboost") || command.equals("7")) {
+                System.out.println("");
+                System.out.println("SET RANDOM BOOST");
+                randomBoost = !randomBoost;
+                System.out.println("OK! RandomBoost is now:  " + randomBoost);
+                System.out.println("true = on, false = off");
             }
         }
     }
