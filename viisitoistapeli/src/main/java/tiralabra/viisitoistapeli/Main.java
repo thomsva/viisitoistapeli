@@ -138,7 +138,7 @@ public class Main {
                     System.out.println("Work time: "
                             + (java.lang.System.currentTimeMillis()
                             - timer) + " milliseconds");
-                    System.out.print(solution.length() + " moves");
+                    System.out.println(solution.length() + " moves");
                 }
 
                 System.out.println("Solution: " + solution);
