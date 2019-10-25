@@ -62,10 +62,10 @@ public class GamePositionTest {
     }
 
     @Test
-    public void testCalculateCostOtherThanZero() {
+    public void testCalculateManhattanDistanceOtherThanZero() {
         int[] field = {0, 1, 2, 3};
         GamePosition position = new GamePosition(field);
-        Assert.assertNotEquals(0, position.getCost());
+        Assert.assertNotEquals(0, position.getManhattanDistance());
     }
     
     @Test
