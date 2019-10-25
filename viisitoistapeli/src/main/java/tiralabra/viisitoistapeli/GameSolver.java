@@ -1,28 +1,31 @@
 package tiralabra.viisitoistapeli;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.PriorityQueue; // to be replaced with own data structure
 import tiralabra.viisitoistapeli.utility.GamePositionQueue;
 import tiralabra.viisitoistapeli.utility.IntegerQueue;
+import tiralabra.viisitoistapeli.utility.MyRandom;
 
 /**
  * The class is a helper class containing a search method used for solving the
  * 15-puzzle.
  */
 public class GameSolver {
-    
 
     /**
-     * A Star style of search algorithm.
+     * A search algorithm for solving a 15-puzzle.
      *
-     * @param start represents the starting game position
+     * @param   start       The starting game position
+     * @param   comparator  The comparator used for comparing game positions
+     * @param   timeout     Timeout in milliseconds
+     * @param   randomBoost Set to true if randomBoost is to be used
      * @return a string containing the solution found by the search algorithm
      */
-    static String search(GamePosition start) {
+    static String search(GamePosition start, Comparator comparator, long timeout, Boolean randomBoost) {
         //Establishing the solution of the game. The goal is to have all numbers
         //ordered with the empty spot (zero) as the last number.
 
-        long timeout = 10000; // timeout in milliseconds
         long timer = java.lang.System.currentTimeMillis();
 
         int[] solution = new int[start.getField().length];
@@ -31,9 +34,8 @@ public class GameSolver {
         }
 
         //Set up queue for next possible moves. The queue uses
-        //GamePosition.compareTo for ranking.
-        PriorityQueue<GamePosition> queue = new PriorityQueue<>();
-        //GamePositionQueue queue = new GamePositionQueue();
+        //the comparator for ranking.
+        GamePositionQueue queue = new GamePositionQueue(comparator);
 
         //Starting position can be reached with zero moves
         start.setMoves(0);
@@ -41,19 +43,83 @@ public class GameSolver {
         //Add start position to queue before starting the search
         queue.add(start);
 
-        while (!queue.isEmpty()) {
+        long count = 0; // Count the iterations
+        long randomBoostCount = 0; // Count the times random boost is activated
 
-            //Poll the first GamePosition from the queue
+        while (!queue.isEmpty()) {
+            count++;
+
+            // Poll the first GamePosition from the queue
             GamePosition current = queue.poll();
 
-            //Check if goal is reached
+            // Check if goal is reached
             if (Arrays.equals(current.getField(), solution)) {
-                //System.out.println("Solution found " + current.getMoves() + " moves");
-                //System.out.println("Size of queue is: " + queue.size());
+                //Goal reached
                 return current.getPath();
             }
-            if (java.lang.System.currentTimeMillis()-timer > timeout) {
-                return ("Timeout. No solution found. Size of queue is: " + queue.size());
+
+            // Check timeout
+            if (java.lang.System.currentTimeMillis() - timer > timeout) {
+                return ("timeout");
+            }
+
+            // RandomBooster: Do 10 random moves after each 5000 normal moves
+            if (randomBoost && count > 5000) {
+                System.out.print("!");
+                count = 0;
+                randomBoostCount++;
+                if (randomBoostCount % 40 == 0) {
+                    // Add line brake after printing ! 40 times
+                    System.out.println();
+                }
+                queue.clear();
+                queue.add(current);
+                System.gc();
+                MyRandom rnd = new MyRandom();
+                for (int i = 0; i < 10; i++) {
+                    GamePosition next = current;
+                    int direction = rnd.Next0to3();
+                    if (direction == 0) {
+                        if (current.canMoveUp()) {
+                            next = current.moveUp();
+                            if (!current.getCameFrom().equals(next)) {
+                                next.setMoves(current.getMoves() + 1);
+                                queue.add(next);
+                            }
+                        }
+                    }
+                    if (direction == 1) {
+                        if (current.canMoveDown()) {
+                            next = current.moveDown();
+                            if (!current.getCameFrom().equals(next)) {
+                                next.setMoves(current.getMoves() + 1);
+                                queue.add(next);
+                            }
+                        }
+                    }
+                    if (direction == 2) {
+                        if (current.canMoveLeft()) {
+                            next = current.moveLeft();
+                            if (!current.getCameFrom().equals(next)) {
+                                next.setMoves(current.getMoves() + 1);
+                                queue.add(next);
+                            }
+                        }
+                    }
+                    if (direction == 3) {
+                        if (current.canMoveRight()) {
+                            next = current.moveRight();
+                            if (!current.getCameFrom().equals(next)) {
+                                next.setMoves(current.getMoves() + 1);
+                                queue.add(next);
+                            }
+                        }
+
+                    }
+                    if (!next.equals(current)) {
+                        current = next;
+                    }
+                }
             }
 
             //Add all possible moves to queue.
@@ -89,4 +155,5 @@ public class GameSolver {
 
         return ("Queue is empty but no solution was found ");
     }
+
 }
