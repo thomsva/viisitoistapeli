@@ -1,10 +1,9 @@
 package tiralabra.viisitoistapeli;
 
+
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.PriorityQueue; // to be replaced with own data structure
 import tiralabra.viisitoistapeli.utility.GamePositionQueue;
-import tiralabra.viisitoistapeli.utility.IntegerQueue;
 import tiralabra.viisitoistapeli.utility.MyRandom;
 
 /**
