@@ -116,11 +116,14 @@ Tämän jälkeen työlistalla on testien parantaminen ja jonkinlaisen käyttöli
 
 ## Viimeistelyviikko
 - Kokeiltu käsin erilaisia tapoja laskea arvioitu kustannus. Tehokkuus parantui melko helpostikin ja on nyt jo lähellä tavoitetasoa, jossa mihin tahansa 4x4 peliin löytyisi ratkaisu kohtuullisessa ajassa. 
+- Rakennettu uusi kattavampi käyttöjärjestelmä
+- Tehty proseduuri suorituskykytestiä varten ja lisätty se käyttöliittymään. 
+- 
 
 
 ### Hakualgoritmin parantelua
 Pelkkä "Manhattan distance" vaikuttaa johtavan tasapelitilanteisiin, jossa algoritmin on käytävä läpi useita yhtä hyviä vaihtoehtoja. Algoritmin nopeuden kannalta olisi tärkeä, että näistä voisi löytyä peruste paremmuuden ratkaisemiseksi. Tässä olen kokeillut kahta ideaa. 
-Ensinnäkin olen kokeillut nollan poistamista laskennasta osittain tai kokonaan. Vaikka nollankin pitää lopussa olla oikeassa paikassa, se toimii samalla myös siirtojen mahdollistajana. Jos nolla on täysmääräisesti mukana kustannuslaskennassa algoritmi suosii aina pelitilannetta, jossa nolla on lähempänä oikeaa alanurkkaa. Intuitiivisesti ajateltuna on hyvä jos nolla on lähellä omaa paikkaansa vasta kun sen ylä- ja vasemmalla puolella olevat numerot ovat jo oikeilla paikoillaan. 
+Ensinnäkin olen kokeillut nollan poistamista laskennasta osittain tai kokonaan. Vaikka nollankin pitää lopussa olla oikeassa paikassa, se toimii samalla myös siirtojen mahdollistajana. Jos nolla on täysmääräisesti mukana kustannuslaskennassa algoritmi suosii aina pelitilannetta, jossa nolla on lähempänä oikeaa alanurkkaa. Ajattelisin, että tämä voi hidastaan ratkaisun löytämistä Siksi poistin nollan kustannuslaskennasta. 
 Toiseksi olen kannustanut algoritmia ratkaisemaan ongelman ihimisen tavoin ylhäältä alaspäin. Yritetään siis ensin saada ensimmäinen rivi paikalleen. Esim. tilanne, jossa ensimmäiset 10 numeroa ovat paikallaan pitäisi olla parempi kuin tilanne, jossa sattumanvaraiset 10 numeroa ovat paikallaan. 
 
 

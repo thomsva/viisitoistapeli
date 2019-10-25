@@ -15,6 +15,26 @@ Funktiona h(n) käytetään tässä sovelluksessa laskelmaa siitä kuinka monta 
 
 Luokassa GameSolver on toteutettu pelin ratkaiseva algoritmi. GameSolver luokan search metodille annetaan lähtötilanteeksi GamePosition luokan olio. Search metodi käyttää hyväkseen kekorakennetta tallentaakseen läpikäydyt pelitilanteet. Käsittelyyn otetaan mahdollisista seuraavista pelitilanteista käsittelyyn aina paras vaihtoehto yllä kerrotun mukaisesti. 
 
+## Käyttöliittymä
+Ohjelmaan on toteutettu tekstipohjainen käyttöliittymä eri toimintoja varten. 
+
+--------------------------------------
+  1   2   3   4 
+  5   6   7   8 
+  9  10  11  12 
+ 13  14  15   0 
+--------------------------------------
+Settings: Game size 4*4, mix: 0.
+Available commands:
+(1) size: Initialize game to a new size.
+(2) mix: Mix the game.
+(3) solve: Attempts to find solution for game.
+(4) test: Run performance test and exit.
+(5) exit: Exits program
+> 
+
+Käyttöliittymän tarkempi toiminta on kuvattu käyttöohjeessa. 
+
 ## Oma tietorakenne GamePositionQueue
 Minimikeko, joka tarjoaa seuraavaksi sen pelitilanteen, jossa kuljettu matka plus arvioitu jäljellä oleva matka on pienin. Keko tallentaa tietoa taulukkoon, jonka kokoa tuplataan tai puolitetaan aina tarvittaessa. 
 
@@ -28,14 +48,26 @@ Viisitoistapelissä tiedetään, että haarautumiskerroin on aina alle 3 (kun su
 GamePositionQueue noudattaa tunnettuja maksimikeon aika- ja tilavaativuuksia. 
 
 ## Suorituskyvyn parantelua
-Vaikuttaisi siltä, lyhyimmän mahdollisen polun löytäminen missä tahansa pelissä kohtuullisessa ajassa on melko haastavaa. Kokeilin siksi muuttaa tavoitetta hieman, eli haen mitä tahansa ratkaisua mahdollisimman nopeasti. Ratkaisun ei siis tarvitse olla lyhyin polku. 
+Vaikuttaisi siltä, lyhyimmän mahdollisen polun löytäminen missä tahansa pelissä kohtuullisessa ajassa on melko haastavaa. Kokeilin siksi muuttaa tavoitetta hieman, eli haen mitä tahansa ratkaisua mahdollisimman nopeasti. Ratkaisun ei siis tarvitse olla lyhyin polku, mutta tavoitteena on ratkaista mikä tahansa 4*4 kokoinen peli kohtuullisessa ajassa. 
 
-Ajattelen, että algoritmi toimisi nopeammin, jos sitä kannustetaan ratkaisemnaan peliä enemmän ihmisen tavalla. Ihminen (ainakin minä itse) aloittaa ratkaisun järjestämällä yläriviä ja jatkaa sitten alaspäin. Toteutin siksi kustannusfunktioon "alennuksia" riippuen siitä kuinka paljon pelin yläosasta on ratkaistu. Alennus riippuu siitä, kuinka monta numeroa alkaen ykkösestä on paikallaan. Alennuksen koko on 1 etäisyysmitta per paikallaan oleva numero. Lisäksi lasketaan lisäalennus kun kokonainen rivi on täynnä. Toiseksi viimeisestä rivistä ei kuitenkaan lasketa lisäalennusta sillä peliä ei voi ratkaista liikkumalla ainoastaan yhdellä rivillä. 
+Ajattelen, että algoritmi toimisi nopeammin, jos sitä kannustetaan ratkaisemaan peliä enemmän ihmisen tavalla. Ihminen (ainakin minä itse) aloittaa ratkaisun järjestämällä yläriviä ja jatkaa sitten alaspäin. Toteutin siksi kustannusfunktioon "alennuksia" riippuen siitä kuinka paljon pelin yläosasta on ratkaistu. Alennus riippuu siitä, kuinka monta numeroa alkaen ykkösestä on paikallaan. Alennuksen koko on 1 etäisyysmitta per paikallaan oleva numero. Lisäksi lasketaan lisäalennus kun kokonainen rivi on täynnä. Toiseksi viimeisestä rivistä ei kuitenkaan lasketa lisäalennusta sillä peliä ei voi ratkaista liikkumalla ainoastaan yhdellä rivillä. 
 
 Alennus johtaa esim. siihen, että ne pelitilanteet, jossa ensimmäinen rivi on raktaistu on huomattavasti kiinnostavampia jatkon kannalta kuin ne pelitilanteet, jossa ensimmäinen rivi ei ole ratkaistu. 
 
-## Työn mahdolliset puutteet ja parannusehdotukset
+## Suorityskykytestejä
+Algoritmi ratkaisee nyt lähes kaikki 4*4 kokoiset pelit ja kaikki sitä pienemmät pelit vaikka niitä sekoittaa paljonkin. 
+Testeissä ratkesi 98 peliä 100:sta kun aikaraja oli 10 sekuntia ja peliä oli sekoitettu 10000 siirtoa. Keskimääräinen ratkaisuaika oli 0.368 sekuntia. 
+Isompi, esim. 10*10 kokoinen peli ratkeaa kohtuullisen nopeasti ja varmasti jos sitä sekoitetaan 75 siirtoa. Sen sijaan jos sekoitus on 10000 siirtoa ei oikeaa ratkaisua löydy 10 sekunnissa kertaakaan / sata yritystä. 
 
+Tarkemmat tulokset suorituskykytesteistä löytyy testausdokumentista. 
+
+## Tehtyjä kokeiluja
+Yritin kannaustaa ratkaisijaa siirtämään pienet numerot ensin lähemmäksi oikeata paikkaansa. Tein tämän painottamalla kustannuslaskentaa siten, että pienet numerot saivat isoimman kertoimen kuin isot. Tällä tulokset 
+
+## Työn puutteet ja parannusehdotukset
+Nykyisellään algoritmi tuottaa melko lyhyen polun melko lyhyessä ajassa. Suorityskyvyn kannalta käytetty heurestiikka vaikuttaa hyödyllisin optimointikohta. Parannetulla heurestiikalla olisi vielä mahdollista parantaa suorituskykyä. 
+Ohjelmassa ei ole erityisesti huolehdittu poikkeuksien hallinnasta. Käyttäjän syötteitä ei myöskään validoida. 
+Timeout on kovakoodattu 10 sekuntia. Olisi kätevää jos käyttäjä voisi itse valita paljonko haluaa antaa aikaa algoritmille. 
 
 ## Lähteet
 Wikipedia, [A* Search Algortihm](https://en.wikipedia.org/wiki/A*_search_algorithm)
