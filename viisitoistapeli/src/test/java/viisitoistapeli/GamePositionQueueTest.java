@@ -36,8 +36,6 @@ public class GamePositionQueueTest {
         GamePosition g1 = new GamePosition(numbers1);
         GamePosition g2 = new GamePosition(numbers2);
         GamePosition g3 = new GamePosition(numbers3);
-        dijkstra.add(g3);
-        dijkstra.add(g2);
         dijkstra.add(g1);
         astar.add(g3);
         astar.add(g2);
