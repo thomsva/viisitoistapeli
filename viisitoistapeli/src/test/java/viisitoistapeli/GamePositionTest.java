@@ -1,18 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package viisitoistapeli;
 
 import org.junit.Assert;
 import org.junit.Test;
 import tiralabra.viisitoistapeli.GamePosition;
 
-/**
- *
- * @author thoms
- */
 public class GamePositionTest {
 
     @Test
