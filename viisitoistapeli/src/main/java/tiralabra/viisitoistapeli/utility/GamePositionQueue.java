@@ -1,15 +1,28 @@
 package tiralabra.viisitoistapeli.utility;
 
+import java.util.Comparator;
 import tiralabra.viisitoistapeli.GamePosition;
 
 /**
  * A class made to replace the Java PriorityQueue class. Made specifically to
- * handle a queue of GamePosition objects stored as a complete binary tree.
+ * handle a queue of GamePosition objects stored as a complete binary tree. 
+ * If a new position has a new "layer" of top-left edges completed compared to the
+ * other positions, the tree is deleted and only the most completed position is
+ * kept. This saves space and speeds up the operation.
  */
 public class GamePositionQueue {
 
     private GamePosition[] tree = new GamePosition[10]; //initial size
     private int last = 0; //the position of the last item in the queue
+    private final Comparator comparator;
+
+    /**
+     *
+     * @param comparator    The comparator used for ranking game positions.
+     */
+    public GamePositionQueue(Comparator comparator) {
+        this.comparator = comparator;
+    }
 
     /**
      * Add a new game position to the heap.
@@ -94,12 +107,32 @@ public class GamePositionQueue {
         }
         GamePosition current = this.tree[i];
         GamePosition parent = this.tree[i / 2];
-        if (current.compareTo(parent) < 0) {
+        if (comparator.compare(current, parent) < 0) {
             //current better than parent, replace
             tree[i / 2] = current;
             tree[i] = parent;
             if ((i / 2) > 1) {
                 heapifyUp(i / 2);
+            } else {
+                checkTop();
+            }
+        }
+    }
+
+    /**
+     * Check the top of the heap. If the first position has more layers complete
+     * compared to the second and third, the heap is reinitialized. 
+     */
+    private void checkTop() {
+        if (last > 3) {
+            if (tree[1].getCompletedLayers() > tree[2].getCompletedLayers()
+                    && tree[1].getCompletedLayers() > tree[3].getCompletedLayers()) {
+                GamePosition[] newTree = new GamePosition[10];
+                newTree[1] = tree[1];
+                tree = newTree;
+                last = 1;
+                System.gc();
+                System.out.print(".");
             }
         }
     }
@@ -124,7 +157,7 @@ public class GamePositionQueue {
             betterChildIndex = i * 2;
         } else {
             rightChild = this.tree[i * 2 + 1];
-            if (leftChild.compareTo(rightChild) < 0) {
+            if (comparator.compare(leftChild, rightChild) < 0) {
                 //left child is better
                 betterChildIndex = i * 2;
                 betterChild = leftChild;
@@ -138,11 +171,20 @@ public class GamePositionQueue {
             System.out.println("heapifyFown: oh no it is null: " + this.last);
         }
 
-        if (current.compareTo(betterChild) > 0) {
+        if (comparator.compare(current, betterChild) > 0) {
             //child is better than current, replace
             this.tree[betterChildIndex] = current;
             this.tree[i] = betterChild;
             heapifyDown(betterChildIndex);
         }
+    }
+
+    /**
+     * Clears everything from the tree.
+     */
+    public void clear() {
+        tree = new GamePosition[10]; //initial size
+        last = 0; //the position of the last item in the queue
+        System.gc();
     }
 }
